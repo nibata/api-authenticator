@@ -5,7 +5,7 @@ from sqlalchemy.pool import NullPool
 
 if UNITTEST == "True":
     DB_URI = f"{DB_DRIVER}+{DB_ASYNC_DRIVER}://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_TEST}"
-else:
+else:  # pragma: no cover
     DB_URI = f"{DB_DRIVER}+{DB_ASYNC_DRIVER}://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 ENGINE = create_async_engine(DB_URI, future=True, poolclass=NullPool)
