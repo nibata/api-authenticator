@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  fastapi:
+    image: nibata/api-authenticator:0.0.0
+    container_name: fastapi-container
+    ports:
+      - "80:80"
+    environment:
+      - DB_PORT=5432
+      - DB_NAME=auth
+      - DB_DRIVER=postgresql
+      - DB_HOST=postgres
+      - DB_USER=postgres
+      - DB_PASS=postgrespw
+      - SECRET_KEY=secretkey
+      - SENTRY_DNS=https://9767dfb57a3f480997b1355644611008@o4504623944892416.ingest.sentry.io/4504839592280064
+      - JWT_SECRET=jwtkey
+      - JWT_ALGORITHM=HS256
+      - DB_ASYNC_DRIVER=asyncpg
+      - CRYPTO_KEY=LTRSUwENFxhTGidpn4gYrdJVeS1jE75pPSDZ2_9qqPw=
+      - APP_ADMIN_EMAIL=nicolas@bacquet.cl
+      - APP_ADMIN_NAME=Nicolás Bacquet
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgrespw
+      - POSTGRES_DB=auth
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U postgres" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres-data:
+
