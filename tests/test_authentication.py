@@ -312,7 +312,7 @@ async def test_get_group():
 
     assert response_get_group_test.status_code == 200
 
-
+"""
 @pytest.mark.anyio
 async def test_assign_role_group():
     json_token = {
@@ -355,4 +355,4 @@ async def test_assign_role_group():
 
     assert response_already_exists.status_code == 400
     assert response_not_existing_user.status_code == 400
-    assert response_not_existing_group.status_code == 400"""
+    assert response_not_existing_group.status_code == 400
