@@ -17,7 +17,7 @@ async def test_check_life_of_users_route():
     assert response.status_code == 200
 
 
-"""@pytest.mark.anyio
+@pytest.mark.anyio
 async def test_create_user_without_authorization():
     json = {
         "fullname": "No Authorized User",
@@ -355,4 +355,4 @@ async def test_assign_role_group():
 
     assert response_already_exists.status_code == 400
     assert response_not_existing_user.status_code == 400
-    assert response_not_existing_group.status_code == 400"""
+    assert response_not_existing_group.status_code == 400
