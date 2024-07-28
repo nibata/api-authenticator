@@ -1,4 +1,4 @@
-name: Test APP
+name: Test API Authenticator
 
 on:
   push:
