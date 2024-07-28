@@ -67,7 +67,7 @@ jobs:
 
 
     - name: Unit Test
-      run: pytest --junitxml=res-test.xml --cov --cov-report=xml:coverage.xml
+      run: pytest --junitxml=res-test.xml --cov --cov-report=xml:coverage.xml --cov-config=configs/.coveragerc
       env:
         DB_DRIVER: ${{ secrets.DB_DRIVER }}
         DB_HOST: ${{ secrets.DB_HOST }}
@@ -87,6 +87,7 @@ jobs:
 
     - name: Publish Test Report
       uses: MishaKav/pytest-coverage-comment@main
+
       if: success() || failure()
       with:
         junitxml-path: res-test.xml
