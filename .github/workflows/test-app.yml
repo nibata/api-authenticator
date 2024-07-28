@@ -1,8 +1,8 @@
-name: Test API Authenticator
+name: Test API
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 jobs:
   test:
