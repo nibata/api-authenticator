@@ -81,7 +81,21 @@ jobs:
         APP_ADMIN_NAME: ${{secrets.APP_ADMIN_NAME}}
 
     - name: Publish Test Report
+      id: coverageComment
       uses: MishaKav/pytest-coverage-comment@main
       with:
         junitxml-path: res-test.xml
         pytest-xml-coverage-path: coverage.xml
+
+    - name: Check Coverage
+      run: |
+        COVERAGE=${{ steps.coverageComment.outputs.coverage }}
+        COVERAGE=${COVERAGE%\%}  # Remove the '%' character
+        MINIMUM_COVERAGE=80
+        if (( $(echo "$COVERAGE < $MINIMUM_COVERAGE" | bc -l) )); then
+          echo "Coverage $COVERAGE% is below the minimum required $MINIMUM_COVERAGE%"
+          exit 1
+        fi
+      shell: bash
+
+
