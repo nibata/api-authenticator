@@ -29,12 +29,12 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@v3
+    - uses: actions/checkout@v4
       with:
         fetch-depth: 0  # Fetch all history for all branches and tags
 
     - name: Set up Python
-      uses: actions/setup-python@v4
+      uses: actions/setup-python@v5
       with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
@@ -82,7 +82,7 @@ jobs:
 
     - name: Publish Test Report
       uses: MishaKav/pytest-coverage-comment@main
-      if: success() || failure()
+      if: always()
       with:
         junitxml-path: res-test.xml
         pytest-xml-coverage-path: coverage.xml
