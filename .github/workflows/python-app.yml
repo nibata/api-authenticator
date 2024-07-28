@@ -69,7 +69,7 @@ jobs:
 
     - name: Unit Test
       working-directory: ./app
-      run: pytest --junitxml=res-test.xml --cov=api_and_sql --cov-report=xml:coverage.xml
+      run: pytest --junitxml=res-test.xml --cov --cov-report=xml:coverage.xml
       env:
         DB_DRIVER: ${{ secrets.DB_DRIVER }}
         DB_HOST: ${{ secrets.DB_HOST }}
