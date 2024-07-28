@@ -15,6 +15,10 @@ class UserGroupLink(SQLModel, table=True):
     user_id: int = Field(foreign_key="authentication.user.id", primary_key=True)
     group_id: int = Field(foreign_key="authentication.group.id", primary_key=True)
 
+    class Config:
+        alias_generator = to_kebab
+        populate_by_name = True
+
 
 class User(UserBase, table=True):
     """User Class contains standard information for a User."""
