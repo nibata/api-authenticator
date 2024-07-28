@@ -23,10 +23,10 @@ if config.config_file_name is not None:
 #target_metadata = None
 
 
-if UNITTEST:
-    DB_URI = f"{DB_DRIVER}://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+if UNITTEST == "True":
+    DB_URI = f"{DB_DRIVER}://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_TEST}"
 else:
-    DB_URI = f"{DB_DRIVER}://{DB_USER}:{DB_PASS}@{DB_TEST}:{DB_PORT}/{DB_NAME}"
+    DB_URI = f"{DB_DRIVER}://{DB_USER}:{DB_PASS}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 config.set_main_option('sqlalchemy.url', DB_URI)
 
