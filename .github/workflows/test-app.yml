@@ -1,35 +1,26 @@
-# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-python
-
-name: API Workflow
+name: Test APP
 
 on:
   push:
     branches: [ "main" ]
-    tags:
-      - '*'
 
 jobs:
-  cov_app:
+  test:
     runs-on: ubuntu-latest
-    
+
     strategy:
       matrix:
         python-version: ["3.11"]
-    
+
     services:
-      # Label used to access the service container
       postgres:
-        # Docker Hub image
         image: postgres:latest
-        # Provide the password for postgres
         env:
           POSTGRES_USER: ${{secrets.DB_USER}}
           POSTGRES_PASSWORD: ${{secrets.DB_PASS}}
           POSTGRES_DB: ${{secrets.DB_TEST}}
         ports:
           - 5432:5432
-          
-        # Set health checks to wait until postgres has started
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -38,6 +29,9 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        fetch-depth: 0  # Fetch all history for all branches and tags
+        ref: ${{ github.ref }}  # Ensure we are checking out the correct ref
 
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -67,12 +61,11 @@ jobs:
         APP_ADMIN_EMAIL: ${{secrets.APP_ADMIN_EMAIL}}
         APP_ADMIN_NAME: ${{secrets.APP_ADMIN_NAME}}
 
-
     - name: Unit Test
       run: pytest --junitxml=res-test.xml --cov --cov-report=xml:coverage.xml --cov-config=configs/.coveragerc
       env:
         DB_DRIVER: ${{ secrets.DB_DRIVER }}
-        DB_HOST: ${{ secrets.DB_HOST }}
+        DB_HOST: ${{secrets.DB_HOST}}
         DB_PORT: ${{secrets.DB_PORT}}
         DB_USER: ${{secrets.DB_USER}}
         DB_PASS: ${{secrets.DB_PASS}}
@@ -89,23 +82,6 @@ jobs:
 
     - name: Publish Test Report
       uses: MishaKav/pytest-coverage-comment@main
-
-      if: success() || failure()
       with:
         junitxml-path: res-test.xml
         pytest-xml-coverage-path: coverage.xml
-
-    - name: Log in to Docker Hub
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build and push Docker image
-      if: startsWith(github.ref, 'refs/tags/')
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        tags: nibata/api-authenticator:${{ github.ref_name }}
