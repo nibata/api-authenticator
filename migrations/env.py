@@ -1,10 +1,9 @@
+from configs.settings import UNITTEST, DB_DRIVER, DB_HOST, DB_NAME, DB_USER, DB_PORT, DB_PASS, DB_TEST
 from sqlalchemy import engine_from_config
 from logging.config import fileConfig
-from dotenv import load_dotenv
 from sqlmodel import SQLModel
 from sqlalchemy import pool
 from alembic import context
-import os, sys, inspect
 from base import *
 
 
@@ -22,19 +21,6 @@ if config.config_file_name is not None:
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
 #target_metadata = None
-
-current_dir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
-parent_dir = os.path.dirname(current_dir)
-sys.path.insert(0, parent_dir)
-load_dotenv(f"{parent_dir}/configs/.env")
-UNITTEST = os.environ.get("UNITTEST")
-DB_DRIVER = os.environ.get("DB_DRIVER")
-DB_HOST = os.environ.get("DB_HOST")
-DB_PORT = os.environ.get("DB_PORT")
-DB_USER = os.environ.get("DB_USER")
-DB_PASS = os.environ.get("DB_PASS")
-DB_NAME = os.environ.get("DB_NAME")
-DB_TEST = os.environ.get("DB_TEST")
 
 
 if UNITTEST:

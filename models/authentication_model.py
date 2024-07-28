@@ -2,6 +2,7 @@ from sqlmodel import Field, Relationship, SQLModel, UniqueConstraint
 from schemas.authentication.passwords_schema import PasswordBase
 from schemas.authentication.groups_schemas import GroupBase
 from schemas.authentication.users_schemas import UserBase
+from utils.hump_implementation import to_kebab
 from typing import List
 
 
@@ -50,4 +51,8 @@ class Password(PasswordBase, table=True):
     id: int = Field(primary_key=True, nullable=False)
     user_id: int = Field(foreign_key="authentication.user.id")
     hashed_password: str = Field(nullable=False, max_length=120)
+
+    class Config:
+        alias_generator = to_kebab
+        populate_by_name = True
 

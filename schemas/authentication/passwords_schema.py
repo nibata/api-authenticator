@@ -14,7 +14,7 @@ class PasswordBase(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True
 
     @staticmethod
     def set_password(pwd: str) -> str:
@@ -45,7 +45,7 @@ class PasswordRead(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class PasswordUpdate(SQLModel):
@@ -56,7 +56,7 @@ class PasswordUpdate(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class PasswordDeactivate(SQLModel):
@@ -64,7 +64,7 @@ class PasswordDeactivate(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class PasswordCreate(SQLModel):
@@ -74,4 +74,4 @@ class PasswordCreate(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True

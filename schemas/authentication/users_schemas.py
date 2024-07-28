@@ -11,7 +11,7 @@ class UserBase(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class UserCreate(UserBase):
@@ -25,4 +25,4 @@ class UserLogin(SQLModel):
 
     class Config:
         alias_generator = to_kebab
-        allow_population_by_field_name = True
+        populate_by_name = True
