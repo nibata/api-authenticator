@@ -88,8 +88,14 @@ jobs:
         pytest-xml-coverage-path: coverage.xml
 
     - name: Check Coverage
-      #if: steps.coverageComment.outputs.coverage < 80
       run: |
-        echo "Coverage ${{ steps.coverageComment.outputs.coverage }} is below the minimum required 80"
+        COVERAGE=${{ steps.coverageComment.outputs.coverage }}
+        COVERAGE=${COVERAGE%\%}  # Remove the '%' character
+        MINIMUM_COVERAGE=80
+        if (( $(echo "$COVERAGE < $MINIMUM_COVERAGE" | bc -l) )); then
+          echo "Coverage $COVERAGE% is below the minimum required $MINIMUM_COVERAGE%"
+          exit 1
+        fi
+      shell: bash
 
 
