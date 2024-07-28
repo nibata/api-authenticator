@@ -1,9 +1,8 @@
-name: API Workflow
+name: Test APP
 
 on:
   push:
-    tags:
-      - '*'
+    branches: [ "main" ]
 
 jobs:
   test:
@@ -29,12 +28,13 @@ jobs:
           --health-retries 5
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v3
       with:
         fetch-depth: 0  # Fetch all history for all branches and tags
+        ref: ${{ github.ref }}  # Ensure we are checking out the correct ref
 
     - name: Set up Python
-      uses: actions/setup-python@v5
+      uses: actions/setup-python@v4
       with:
           python-version: ${{ matrix.python-version }}
           architecture: x64
@@ -82,30 +82,6 @@ jobs:
 
     - name: Publish Test Report
       uses: MishaKav/pytest-coverage-comment@main
-      if: always()
       with:
         junitxml-path: res-test.xml
         pytest-xml-coverage-path: coverage.xml
-
-  build_and_push:
-    needs: test
-    runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/')
-
-    steps:
-    - uses: actions/checkout@v4
-      with:
-        fetch-depth: 0  # Fetch all history for all branches and tags
-
-    - name: Log in to Docker Hub
-      uses: docker/login-action@v3
-      with:
-        username: ${{ secrets.DOCKER_USERNAME }}
-        password: ${{ secrets.DOCKER_PASSWORD }}
-
-    - name: Build and push Docker image
-      uses: docker/build-push-action@v6
-      with:
-        context: .
-        push: true
-        tags: nibata/api-authenticator:${{ github.ref_name }}
