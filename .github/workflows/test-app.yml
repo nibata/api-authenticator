@@ -91,6 +91,8 @@ jobs:
       run: |
         COVERAGE=$(grep -o 'line-rate="[0-9]*\.[0-9]*"' coverage.xml | sed 's/line-rate=//;s/"//g')
         MINIMUM_COVERAGE=0.80
+        echo $COVERAGE
+        echo $MINIMUM_COVERAGE
         if (( $(echo "$COVERAGE < $MINIMUM_COVERAGE" | bc -l) )); then
           echo "Coverage $COVERAGE is below the minimum required $MINIMUM_COVERAGE"
           exit 1
