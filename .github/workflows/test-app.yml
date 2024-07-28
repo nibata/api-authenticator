@@ -85,3 +85,4 @@ jobs:
       with:
         junitxml-path: res-test.xml
         pytest-xml-coverage-path: coverage.xml
+        minimum_coverage: 90
