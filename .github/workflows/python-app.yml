@@ -47,7 +47,6 @@ jobs:
       run: pip install -r requirements.txt
 
     - name: Connect to postgres
-      working-directory: ./app
       run: alembic upgrade head
       env:
         DB_DRIVER: ${{ secrets.DB_DRIVER }}
@@ -68,7 +67,6 @@ jobs:
 
 
     - name: Unit Test
-      working-directory: ./app
       run: pytest --junitxml=res-test.xml --cov --cov-report=xml:coverage.xml
       env:
         DB_DRIVER: ${{ secrets.DB_DRIVER }}
