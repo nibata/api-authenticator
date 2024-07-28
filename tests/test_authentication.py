@@ -17,7 +17,7 @@ async def test_check_life_of_users_route():
     assert response.status_code == 200
 
 
-"""@pytest.mark.anyio
+@pytest.mark.anyio
 async def test_create_user_without_authorization():
     json = {
         "fullname": "No Authorized User",
@@ -312,7 +312,7 @@ async def test_get_group():
 
     assert response_get_group_test.status_code == 200
 
-"""
+
 @pytest.mark.anyio
 async def test_assign_role_group():
     json_token = {
