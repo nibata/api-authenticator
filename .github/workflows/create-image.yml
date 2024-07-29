@@ -30,7 +30,9 @@ jobs:
         context: .
         push: true
         platforms: linux/amd64,linux/arm64
-        tags: nibata/api-authenticator:${{ github.ref_name }}
+        tags: |
+          nibata/api-authenticator:${{ github.ref_name }}
+          nibata/api-authenticator:latest 
 
     - name: Logout from Docker Hub
       run: docker logout
