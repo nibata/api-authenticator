@@ -1,5 +1,5 @@
 # docker build -t nibata/api:0.0.1 -f images/Dockerfile-FastAPI .
-FROM python:3.12-slim
+FROM python:3.13.0rc2-slim
 LABEL authors="nbacquet"
 
 RUN rm -f /var/cache/apt/archives/*.deb /var/cache/apt/archives/partial/*.deb /var/cache/apt/*.bin
